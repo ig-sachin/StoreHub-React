@@ -3,10 +3,12 @@ import { AppBar, Toolbar, IconButton, Badge, MenuItem, Menu, Typography } from '
 import { ShoppingCart } from '@material-ui/icons';
 import { Link, useLocation } from 'react-router-dom';
 
+
 import logo from '../../assets/commerce.png';
 import useStyles from './styles';
+import { GoogleLogout } from 'react-google-login';
 
-const PrimarySearchAppBar = ({ totalItems }) => {
+const PrimarySearchAppBar = ({ totalItems, name, flag, setflag }) => {
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
   const classes = useStyles();
   const location = useLocation();
@@ -16,6 +18,11 @@ const PrimarySearchAppBar = ({ totalItems }) => {
   const handleMobileMenuClose = () => setMobileMoreAnchorEl(null);
 
   const mobileMenuId = 'primary-search-account-menu-mobile';
+
+
+  const logout = () => {
+    setflag(false);
+  }
 
   const renderMobileMenu = (
     <Menu anchorEl={mobileMoreAnchorEl} anchorOrigin={{ vertical: 'top', horizontal: 'right' }} id={mobileMenuId} keepMounted transformOrigin={{ vertical: 'top', horizontal: 'right' }} open={isMobileMenuOpen} onClose={handleMobileMenuClose}>
@@ -35,17 +42,25 @@ const PrimarySearchAppBar = ({ totalItems }) => {
       <AppBar position="fixed" className={classes.appBar} color="inherit">
         <Toolbar>
           <Typography component={Link} to="/" variant="h6" className={classes.title} color="inherit">
-            <img src={logo} alt="commerce.js" height="25px" className={classes.image} /> StoreHub
+            <img src={logo} alt="commerce.js" height="25px" className={classes.image} /> StoreHub, Welcome {name}
           </Typography>
           <div className={classes.grow} />
           {location.pathname === '/' && (
-          <div className={classes.button}>
-            <IconButton component={Link} to="/cart" aria-label="Show cart items" color="inherit">
-              <Badge badgeContent={totalItems} color="secondary">
-                <ShoppingCart />
-              </Badge>
-            </IconButton>
-          </div>
+            <div className={classes.button}>
+              <IconButton component={Link} to="/cart" aria-label="Show cart items" color="inherit">
+                <Badge badgeContent={totalItems} color="secondary">
+                  <ShoppingCart />
+                </Badge>
+              </IconButton>
+              <div className="logout">
+                <GoogleLogout
+                  clientId="446301006294-f4rkinbj1oieb8a1kn0d5cvbita6vuao.apps.googleusercontent.com"
+                  buttonText="Logout"
+                  onLogoutSuccess={logout}
+                  className='logout'
+                />
+              </div>
+            </div>
           )}
         </Toolbar>
       </AppBar>

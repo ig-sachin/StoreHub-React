@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Navbar, Products, Cart, Checkout } from './components';
 import { commerce } from './lib/commerce';
 
-const App = () => {
+const App = ({ name, flag, setflag }) => {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [products, setProducts] = useState([]);
   const [cart, setCart] = useState({});
@@ -75,7 +75,7 @@ const App = () => {
     <Router>
       <div style={{ display: 'flex' }}>
         <CssBaseline />
-        <Navbar totalItems={cart.total_items} handleDrawerToggle={handleDrawerToggle} />
+        <Navbar totalItems={cart.total_items} handleDrawerToggle={handleDrawerToggle} name={name} flag={flag} setflag={setflag} />
         <Switch>
           <Route exact path="/">
             <Products products={products} onAddToCart={handleAddToCart} handleUpdateCartQty />

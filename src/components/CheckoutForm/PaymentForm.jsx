@@ -6,8 +6,9 @@ import { loadStripe } from '@stripe/stripe-js';
 import Review from './Review';
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
+// REACT_APP_CHEC_PUBLIC_KEY_Mine=pk_test_31409736ed50fdd042814f94445f2f57efc708ed94aa0
 
-const PaymentForm = ({ checkoutToken, nextStep, backStep, shippingData, onCaptureCheckout }) => {
+const PaymentForm = ({ checkoutToken, nextStep, backStep, shippingData, onCaptureCheckout, timeout }) => {
   const handleSubmit = async (event, elements, stripe) => {
     event.preventDefault();
 
@@ -32,9 +33,12 @@ const PaymentForm = ({ checkoutToken, nextStep, backStep, shippingData, onCaptur
           },
         },
       };
+      console.log('====================================');
+      console.log(orderData);
+      console.log('====================================');
 
       onCaptureCheckout(checkoutToken.id, orderData);
-
+      timeout();
       nextStep();
     }
   };
@@ -45,18 +49,19 @@ const PaymentForm = ({ checkoutToken, nextStep, backStep, shippingData, onCaptur
       <Divider />
       <Typography variant="h6" gutterBottom style={{ margin: '20px 0' }}>Payment method</Typography>
       <Elements stripe={stripePromise}>
-        <ElementsConsumer>{({ elements, stripe }) => (
-          <form onSubmit={(e) => handleSubmit(e, elements, stripe)}>
-            <CardElement />
-            <br /> <br />
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <Button variant="outlined" onClick={backStep}>Back</Button>
-              <Button type="submit" variant="contained" disabled={!stripe} color="primary">
-                Pay {checkoutToken.live.subtotal.formatted_with_symbol}
-              </Button>
-            </div>
-          </form>
-        )}
+        <ElementsConsumer>
+          {({ elements, stripe }) => (
+            <form onSubmit={(e) => handleSubmit(e, elements, stripe)}>
+              <CardElement />
+              <br /> <br />
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <Button variant="outlined" onClick={backStep}>Back</Button>
+                <Button type="submit" variant="contained" disabled={!stripe} color="primary">
+                  Pay {checkoutToken.live.subtotal.formatted_with_symbol}
+                </Button>
+              </div>
+            </form>
+          )}
         </ElementsConsumer>
       </Elements>
     </>

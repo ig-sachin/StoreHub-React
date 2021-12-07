@@ -65,4 +65,9 @@ export default makeStyles((theme) => ({
       width: '20ch',
     },
   },
+  button: {
+    display: 'flex',
+    width: '200px',
+    justifyContent: 'space-evenly',
+  },
 }));
