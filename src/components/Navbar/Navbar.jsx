@@ -6,7 +6,6 @@ import { Link, useLocation } from 'react-router-dom';
 
 import logo from '../../assets/commerce.png';
 import useStyles from './styles';
-import { GoogleLogout } from 'react-google-login';
 
 const PrimarySearchAppBar = ({ totalItems, name, flag, setflag }) => {
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
@@ -19,10 +18,6 @@ const PrimarySearchAppBar = ({ totalItems, name, flag, setflag }) => {
 
   const mobileMenuId = 'primary-search-account-menu-mobile';
 
-
-  const logout = () => {
-    setflag(false);
-  }
 
   const renderMobileMenu = (
     <Menu anchorEl={mobileMoreAnchorEl} anchorOrigin={{ vertical: 'top', horizontal: 'right' }} id={mobileMenuId} keepMounted transformOrigin={{ vertical: 'top', horizontal: 'right' }} open={isMobileMenuOpen} onClose={handleMobileMenuClose}>
@@ -41,8 +36,8 @@ const PrimarySearchAppBar = ({ totalItems, name, flag, setflag }) => {
     <>
       <AppBar position="fixed" className={classes.appBar} color="inherit">
         <Toolbar>
-          <Typography component={Link} to="/" variant="h6" className={classes.title} color="inherit">
-            <img src={logo} alt="commerce.js" height="25px" className={classes.image} /> StoreHub, Welcome {name}
+          <Typography component={Link} to="/" variant="h4" className={classes.title} color="inherit">
+            <img src={logo} alt="commerce.js" height="25px" className={classes.image} /> StoreHub
           </Typography>
           <div className={classes.grow} />
           {location.pathname === '/' && (
@@ -52,14 +47,6 @@ const PrimarySearchAppBar = ({ totalItems, name, flag, setflag }) => {
                   <ShoppingCart />
                 </Badge>
               </IconButton>
-              <div className="logout">
-                <GoogleLogout
-                  clientId="446301006294-f4rkinbj1oieb8a1kn0d5cvbita6vuao.apps.googleusercontent.com"
-                  buttonText="Logout"
-                  onLogoutSuccess={logout}
-                  className='logout'
-                />
-              </div>
             </div>
           )}
         </Toolbar>
